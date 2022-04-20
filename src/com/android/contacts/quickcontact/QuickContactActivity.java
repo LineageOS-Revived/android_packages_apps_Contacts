@@ -271,7 +271,6 @@ public class QuickContactActivity extends ContactsActivity {
     private String[] mExcludeMimes;
     private int mExtraMode;
     private String mExtraPrioritizedMimeType;
-    private int mStatusBarColor;
     private boolean mHasAlreadyBeenOpened;
     private boolean mOnlyOnePhoneNumber;
     private boolean mOnlyOneEmail;
@@ -538,12 +537,10 @@ public class QuickContactActivity extends ContactsActivity {
 
         @Override
         public void onEnterFullscreen() {
-            updateStatusBarColor();
         }
 
         @Override
         public void onExitFullscreen() {
-            updateStatusBarColor();
         }
 
         @Override
@@ -681,10 +678,6 @@ public class QuickContactActivity extends ContactsActivity {
             mReferrer = getReferrer().getAuthority();
         }
         mContactType = ContactType.UNKNOWN_TYPE;
-
-        if (CompatUtils.isLollipopCompatible()) {
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
 
         processIntent(getIntent());
 
@@ -2050,32 +2043,11 @@ public class QuickContactActivity extends ContactsActivity {
         // If the color is invalid, use the predefined default
         mColorFilterColor = palette.mPrimaryColor;
         mScroller.setHeaderTintColor(mColorFilterColor);
-        mStatusBarColor = palette.mSecondaryColor;
-        updateStatusBarColor();
 
         mColorFilter =
                 new PorterDuffColorFilter(mColorFilterColor, PorterDuff.Mode.SRC_ATOP);
         mContactCard.setColorAndFilter(mColorFilterColor, mColorFilter);
         mAboutCard.setColorAndFilter(mColorFilterColor, mColorFilter);
-    }
-
-    private void updateStatusBarColor() {
-        if (mScroller == null || !CompatUtils.isLollipopCompatible()) {
-            return;
-        }
-        final int desiredStatusBarColor;
-        // Only use a custom status bar color if QuickContacts touches the top of the viewport.
-        if (mScroller.getScrollNeededToBeFullScreen() <= 0) {
-            desiredStatusBarColor = mStatusBarColor;
-        } else {
-            desiredStatusBarColor = Color.TRANSPARENT;
-        }
-        // Animate to the new color.
-        final ObjectAnimator animation = ObjectAnimator.ofInt(getWindow(), "statusBarColor",
-                getWindow().getStatusBarColor(), desiredStatusBarColor);
-        animation.setDuration(ANIMATION_STATUS_BAR_COLOR_CHANGE_DURATION);
-        animation.setEvaluator(new ArgbEvaluator());
-        animation.start();
     }
 
     private int colorFromBitmap(Bitmap bitmap) {
@@ -2207,8 +2179,7 @@ public class QuickContactActivity extends ContactsActivity {
     private Intent getEditContactIntent() {
         return EditorIntents.createEditContactIntent(QuickContactActivity.this,
                 mContactData.getLookupUri(),
-                mHasComputedThemeColor
-                        ? new MaterialPalette(mColorFilterColor, mStatusBarColor) : null,
+                null,
                 mContactData.getPhotoId());
     }
 
@@ -2528,9 +2499,7 @@ public class QuickContactActivity extends ContactsActivity {
         startActivityForResult(EditorIntents.createViewLinkedContactsIntent(
                 QuickContactActivity.this,
                 mContactData.getLookupUri(),
-                mHasComputedThemeColor
-                        ? new MaterialPalette(mColorFilterColor, mStatusBarColor)
-                        : null),
+                null),
                 REQUEST_CODE_CONTACT_EDITOR_ACTIVITY);
         return true;
     }

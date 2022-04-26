@@ -14,6 +14,9 @@
      limitations under the License.
 -->
 <resources>
+    
+    <!-- FAB color -->
+    <color name="fab_color">#F50157</color>
     <color name="ic_add_contact_shortcut_background">#F5F5F5</color>
 
     <!-- 87% black -->

@@ -492,10 +492,10 @@
     <string name="menu_blocked_numbers">Rhifau wedi eu rhwystro</string>
     <string name="contact_status_update_attribution">gyda <xliff:g id="source" example="Google Talk">%1$s</xliff:g></string>
     <string name="contact_status_update_attribution_with_date"><xliff:g id="date" example="3 hours ago">%1$s</xliff:g> gyda <xliff:g id="source" example="Google Talk">%2$s</xliff:g></string>
-    <string name="letter_tile_letter_font_family">sans-serif-medium</string>
+    <string name="letter_tile_letter_font_family">@*android:string/config_headlineFontFamilyMedium</string>
     <string name="action_menu_back_from_search">stopio chwilio</string>
     <string name="description_clear_search">Clirio\'r chwiliad</string>
-    <string name="search_font_family">sans-serif</string>
+    <string name="search_font_family">@*android:string/config_bodyFontFamily</string>
     <string name="select_account_dialog_title">Cyfrif</string>
     <string name="set_default_account">Defnyddio hwn bob tro ar gyfer galwadau</string>
     <string name="call_with_a_note">Galw gyda nodyn</string>

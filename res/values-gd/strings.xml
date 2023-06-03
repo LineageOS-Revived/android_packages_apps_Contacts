@@ -488,10 +488,10 @@
     <string name="menu_blocked_numbers">Àireamhan bacte</string>
     <string name="contact_status_update_attribution">slighe <xliff:g id="source" example="Google Talk">%1$s</xliff:g></string>
     <string name="contact_status_update_attribution_with_date"><xliff:g id="date" example="3 hours ago">%1$s</xliff:g> slighe <xliff:g id="source" example="Google Talk">%2$s</xliff:g></string>
-    <string name="letter_tile_letter_font_family">sans-serif-medium</string>
+    <string name="letter_tile_letter_font_family">@*android:string/config_headlineFontFamilyMedium</string>
     <string name="action_menu_back_from_search">sguir dhen lorg</string>
     <string name="description_clear_search">Falamhaich an lorg</string>
-    <string name="search_font_family">sans-serif</string>
+    <string name="search_font_family">@*android:string/config_bodyFontFamily</string>
     <string name="select_account_dialog_title">Cunntas</string>
     <string name="set_default_account">Cleachd seo airson fòn a chur an-còmhnaidh</string>
     <string name="call_with_a_note">Cuir fòn le nòta</string>

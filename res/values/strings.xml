@@ -1365,7 +1365,7 @@
 
     <!-- Font family used when drawing letters for letter tile avatars.
          Do not translate. -->
-    <string name="letter_tile_letter_font_family">sans-serif-medium</string>
+    <string name="letter_tile_letter_font_family">@*android:string/config_headlineFontFamilyMedium</string>
 
     <!-- Content description for the fake action menu up button as used
      inside search. [CHAR LIMIT=NONE] -->
@@ -1376,7 +1376,7 @@
 
     <!-- The font-family to use for the text inside the searchbox.
          Do not translate. -->
-    <string name="search_font_family">sans-serif</string>
+    <string name="search_font_family">@*android:string/config_bodyFontFamily</string>
 
     <!-- Title for Select Account Dialog [CHAR LIMIT=30] -->
     <string name="select_account_dialog_title">Account</string>

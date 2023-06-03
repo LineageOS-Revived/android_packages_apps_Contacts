@@ -158,7 +158,7 @@ public class LetterTileDrawable extends Drawable {
             // Scale text by canvas bounds and user selected scaling factor
             sPaint.setTextSize(mScale * sLetterToTileRatio * minDimension);
             sPaint.getTextBounds(sFirstChar, 0, 1, sRect);
-            sPaint.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+            sPaint.setTypeface(Typeface.create("@*android:string/config_bodyFontFamily", Typeface.NORMAL));
             sPaint.setColor(sTileFontColor);
             sPaint.setAlpha(ALPHA);
 

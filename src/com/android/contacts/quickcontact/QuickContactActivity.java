@@ -271,7 +271,6 @@ public class QuickContactActivity extends ContactsActivity {
     private String[] mExcludeMimes;
     private int mExtraMode;
     private String mExtraPrioritizedMimeType;
-    private int mStatusBarColor;
     private boolean mHasAlreadyBeenOpened;
     private boolean mOnlyOnePhoneNumber;
     private boolean mOnlyOneEmail;
@@ -538,12 +537,10 @@ public class QuickContactActivity extends ContactsActivity {
 
         @Override
         public void onEnterFullscreen() {
-            updateStatusBarColor();
         }
 
         @Override
         public void onExitFullscreen() {
-            updateStatusBarColor();
         }
 
         @Override
@@ -681,10 +678,6 @@ public class QuickContactActivity extends ContactsActivity {
             mReferrer = getReferrer().getAuthority();
         }
         mContactType = ContactType.UNKNOWN_TYPE;
-
-        if (CompatUtils.isLollipopCompatible()) {
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
 
         processIntent(getIntent());
 
@@ -1570,7 +1563,7 @@ public class QuickContactActivity extends ContactsActivity {
                 phoneContentDescription = com.android.contacts.util.ContactDisplayUtils
                         .getTelephoneTtsSpannable(primaryContentDescription.toString(), header);
                 iconResourceId = R.drawable.quantum_ic_phone_vd_theme_24;
-                icon = res.getDrawable(iconResourceId);
+                icon = context.getDrawable(iconResourceId);
                 if (PhoneCapabilityTester.isPhone(context)) {
                     intent = CallUtil.getCallIntent(phone.getNumber());
                     intent.putExtra(EXTRA_ACTION_TYPE, ActionType.CALL);
@@ -1579,7 +1572,7 @@ public class QuickContactActivity extends ContactsActivity {
                         Uri.fromParts(ContactsUtils.SCHEME_SMSTO, phone.getNumber(), null));
                 alternateIntent.putExtra(EXTRA_ACTION_TYPE, ActionType.SMS);
 
-                alternateIcon = res.getDrawable(R.drawable.quantum_ic_message_vd_theme_24);
+                alternateIcon = context.getDrawable(R.drawable.quantum_ic_message_vd_theme_24);
                 alternateContentDescription.append(res.getString(R.string.sms_custom, header));
                 smsContentDescription = com.android.contacts.util.ContactDisplayUtils
                         .getTelephoneTtsSpannable(alternateContentDescription.toString(), header);
@@ -1593,7 +1586,7 @@ public class QuickContactActivity extends ContactsActivity {
                 boolean isPresent = (carrierPresence & Phone.CARRIER_PRESENCE_VT_CAPABLE) != 0;
 
                 if (CallUtil.isCallWithSubjectSupported(context)) {
-                    thirdIcon = res.getDrawable(R.drawable.quantum_ic_perm_phone_msg_vd_theme_24);
+                    thirdIcon = context.getDrawable(R.drawable.quantum_ic_perm_phone_msg_vd_theme_24);
                     thirdAction = Entry.ACTION_CALL_WITH_SUBJECT;
                     thirdContentDescription =
                             res.getString(R.string.call_with_a_note);
@@ -1615,7 +1608,7 @@ public class QuickContactActivity extends ContactsActivity {
                     thirdExtras.putString(CallSubjectDialog.ARG_NUMBER_LABEL,
                             phoneLabel);
                 } else if (isVideoEnabled && (!isPresenceEnabled || isPresent)) {
-                    thirdIcon = res.getDrawable(R.drawable.quantum_ic_videocam_vd_theme_24);
+                    thirdIcon = context.getDrawable(R.drawable.quantum_ic_videocam_vd_theme_24);
                     thirdAction = Entry.ACTION_INTENT;
                     thirdIntent = CallUtil.getVideoCallIntent(phone.getNumber(),
                             CALL_ORIGIN_QUICK_CONTACTS_ACTIVITY);
@@ -1624,7 +1617,7 @@ public class QuickContactActivity extends ContactsActivity {
                             res.getString(R.string.description_video_call);
                 } else if (CallUtil.isTachyonEnabled(context)
                         && ((PhoneDataItem) dataItem).isTachyonReachable()) {
-                    thirdIcon = res.getDrawable(R.drawable.quantum_ic_videocam_vd_theme_24);
+                    thirdIcon = context.getDrawable(R.drawable.quantum_ic_videocam_vd_theme_24);
                     thirdAction = Entry.ACTION_INTENT;
                     thirdIntent = new Intent(TACHYON_CALL_ACTION);
                     thirdIntent.setData(
@@ -1652,7 +1645,7 @@ public class QuickContactActivity extends ContactsActivity {
                 }
                 primaryContentDescription.append(header);
                 iconResourceId = R.drawable.quantum_ic_email_vd_theme_24;
-                icon = res.getDrawable(iconResourceId);
+                icon = context.getDrawable(iconResourceId);
             }
         } else if (dataItem instanceof StructuredPostalDataItem) {
             StructuredPostalDataItem postal = (StructuredPostalDataItem) dataItem;
@@ -1674,11 +1667,11 @@ public class QuickContactActivity extends ContactsActivity {
                 alternateIntent =
                         StructuredPostalUtils.getViewPostalAddressDirectionsIntent(postalAddress);
                 alternateIntent.putExtra(EXTRA_ACTION_TYPE, ActionType.DIRECTIONS);
-                alternateIcon = res.getDrawable(R.drawable.quantum_ic_directions_vd_theme_24);
+                alternateIcon = context.getDrawable(R.drawable.quantum_ic_directions_vd_theme_24);
                 alternateContentDescription.append(res.getString(
                         R.string.content_description_directions)).append(" ").append(header);
                 iconResourceId = R.drawable.quantum_ic_place_vd_theme_24;
-                icon = res.getDrawable(iconResourceId);
+                icon = context.getDrawable(iconResourceId);
             }
         } else if (dataItem instanceof SipAddressDataItem) {
             final SipAddressDataItem sip = (SipAddressDataItem) dataItem;
@@ -1702,7 +1695,7 @@ public class QuickContactActivity extends ContactsActivity {
                 }
                 primaryContentDescription.append(header);
                 iconResourceId = R.drawable.quantum_ic_dialer_sip_vd_theme_24;
-                icon = res.getDrawable(iconResourceId);
+                icon = context.getDrawable(iconResourceId);
             }
         } else if (dataItem instanceof StructuredNameDataItem) {
             // If the name is already set and this is not the super primary value then leave the
@@ -1738,8 +1731,8 @@ public class QuickContactActivity extends ContactsActivity {
                     // If a secondDataItem is available, use it to build an entry with
                     // alternate actions
                     if (secondDataItem != null) {
-                        icon = res.getDrawable(R.drawable.quantum_ic_hangout_vd_theme_24);
-                        alternateIcon = res.getDrawable(
+                        icon = context.getDrawable(R.drawable.quantum_ic_hangout_vd_theme_24);
+                        alternateIcon = context.getDrawable(
                                 R.drawable.quantum_ic_hangout_video_vd_theme_24);
                         final HangoutsDataItemModel itemModel =
                                 new HangoutsDataItemModel(intent, alternateIntent,
@@ -1754,9 +1747,9 @@ public class QuickContactActivity extends ContactsActivity {
                         text = itemModel.text;
                     } else {
                         if (HANGOUTS_DATA_5_VIDEO.equals(intent.getDataString())) {
-                            icon = res.getDrawable(R.drawable.quantum_ic_hangout_video_vd_theme_24);
+                            icon = context.getDrawable(R.drawable.quantum_ic_hangout_video_vd_theme_24);
                         } else {
-                            icon = res.getDrawable(R.drawable.quantum_ic_hangout_vd_theme_24);
+                            icon = context.getDrawable(R.drawable.quantum_ic_hangout_vd_theme_24);
                         }
                     }
                 } else {
@@ -2050,32 +2043,11 @@ public class QuickContactActivity extends ContactsActivity {
         // If the color is invalid, use the predefined default
         mColorFilterColor = palette.mPrimaryColor;
         mScroller.setHeaderTintColor(mColorFilterColor);
-        mStatusBarColor = palette.mSecondaryColor;
-        updateStatusBarColor();
 
         mColorFilter =
                 new PorterDuffColorFilter(mColorFilterColor, PorterDuff.Mode.SRC_ATOP);
         mContactCard.setColorAndFilter(mColorFilterColor, mColorFilter);
         mAboutCard.setColorAndFilter(mColorFilterColor, mColorFilter);
-    }
-
-    private void updateStatusBarColor() {
-        if (mScroller == null || !CompatUtils.isLollipopCompatible()) {
-            return;
-        }
-        final int desiredStatusBarColor;
-        // Only use a custom status bar color if QuickContacts touches the top of the viewport.
-        if (mScroller.getScrollNeededToBeFullScreen() <= 0) {
-            desiredStatusBarColor = mStatusBarColor;
-        } else {
-            desiredStatusBarColor = Color.TRANSPARENT;
-        }
-        // Animate to the new color.
-        final ObjectAnimator animation = ObjectAnimator.ofInt(getWindow(), "statusBarColor",
-                getWindow().getStatusBarColor(), desiredStatusBarColor);
-        animation.setDuration(ANIMATION_STATUS_BAR_COLOR_CHANGE_DURATION);
-        animation.setEvaluator(new ArgbEvaluator());
-        animation.start();
     }
 
     private int colorFromBitmap(Bitmap bitmap) {
@@ -2207,8 +2179,7 @@ public class QuickContactActivity extends ContactsActivity {
     private Intent getEditContactIntent() {
         return EditorIntents.createEditContactIntent(QuickContactActivity.this,
                 mContactData.getLookupUri(),
-                mHasComputedThemeColor
-                        ? new MaterialPalette(mColorFilterColor, mStatusBarColor) : null,
+                null,
                 mContactData.getPhotoId());
     }
 
@@ -2528,9 +2499,7 @@ public class QuickContactActivity extends ContactsActivity {
         startActivityForResult(EditorIntents.createViewLinkedContactsIntent(
                 QuickContactActivity.this,
                 mContactData.getLookupUri(),
-                mHasComputedThemeColor
-                        ? new MaterialPalette(mColorFilterColor, mStatusBarColor)
-                        : null),
+                null),
                 REQUEST_CODE_CONTACT_EDITOR_ACTIVITY);
         return true;
     }
